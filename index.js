@@ -26,7 +26,7 @@ async function getMetamod(client) {
 function metamodRequest(response) {
 	if (response) {
 		const isEnabled = isValidResponse(response);
-		metamodEnabledGauge.set(isEnabled ? Number(0) : Number(1));
+		metamodEnabledGauge.set(isEnabled ? Number(1) : Number(0));
 	} else {
 		metamodEnabledGauge.set((Number(-1)));
 	}
@@ -39,7 +39,7 @@ async function getSourcemod(client) {
 function sourcemodRequest(response) {
 	if (response) {
 		const isEnabled = isValidResponse(response);
-		sourcemodEnabledGauge.set(isEnabled ? Number(0) : Number(1));
+		sourcemodEnabledGauge.set(isEnabled ? Number(1) : Number(0));
 	} else {
 		sourcemodEnabledGauge.set((Number(-1)));
 	}
@@ -52,7 +52,7 @@ async function getSourcepython(client) {
 function sourcepythonRequest(response) {
 	if (response) {
 		const isEnabled = isValidResponse(response);
-		sourcepythonEnabledGauge.set(isEnabled ? Number(0) : Number(1));
+		sourcepythonEnabledGauge.set(isEnabled ? Number(1) : Number(0));
 	} else {
 		sourcepythonEnabledGauge.set(Number(-1));
 	}
