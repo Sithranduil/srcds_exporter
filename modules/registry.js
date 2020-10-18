@@ -18,17 +18,17 @@ export default {
 
 	setDefaultLabels(ip, port, game, tags, metamodResponse, sourcemodResponse, sourcepythonResponse) {
 		const defaultLabels = { server: `${ip}:${port}`, game, tags };
-		if (metamodResponse) {
+		if (metamodResponse && utils.isValidResponse(metamodResponse)) {
 			const line = utils.getLine(metamodResponse);
 			const version = line.replace('Metamod:Source version ', '');
 			defaultLabels.metamod = version;
 		}
-		if (sourcemodResponse) {
+		if (sourcemodResponse && utils.isValidResponse(sourcemodResponse)) {
 			const line = utils.getLine(sourcemodResponse, 2);
 			const version = line.replace('    SourceMod Version: ', '');
 			defaultLabels.sourcemod = version;
 		}
-		if (sourcepythonResponse) {
+		if (sourcepythonResponse && utils.isValidResponse(sourcepythonResponse)) {
 			const line = utils.getLine(sourcepythonResponse, 8);
 			const version = line.replace('SP version    : ', '');
 			defaultLabels.sourcepython = version;
