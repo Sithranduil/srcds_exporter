@@ -14,7 +14,6 @@ export default {
 	svMaxUpdateRate: new Gauge({ name: 'srcds_sv_max_update_rate', help: 'The time in MS per tick', registers: registry.allGameMetrics }),
 	// Metamod metrics
 	metamodEnabled: new Gauge({ name: 'srcds_metamod_enabled', help: 'Is metamod enabled', registers: registry.allGameMetrics }),
-	metamodVersion: new Gauge({ name: 'srcds_metamod_version', help: 'Metamod version', registers: registry.allGameMetrics }),
 	// Sourcemod metrics
 	sourcemodEnabled: new Gauge({ name: 'srcds_sourcemod_enabled', help: 'Is sourcemod enabled', registers: registry.allGameMetrics }),
 	// SourcePython metrics
