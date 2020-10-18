@@ -35,7 +35,7 @@ export default {
 		sourcemod.setMetrics(response.sourcemod);
 		sourcepython.setMetrics(response.sourcepython);
 		game.setStatsMetrics(response.stats, config.game);
-		game.setInfoMetrics(response.info, config.game);
+		game.setInfoMetrics(response.info);
 
 		registry.setDefaultLabels(
 			config.ip,

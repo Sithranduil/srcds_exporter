@@ -13,7 +13,6 @@ export default {
 		if (game === 'csgo') {
 			statusLine = stats.split(/\r?\n/);
 			statusLine.shift();
-			statusLine.pop();
 			statusLine = statusLine[0].split(/\s+/);
 			statusLine.shift();
 			return statusLine;
@@ -34,7 +33,6 @@ export default {
 			metrics.players.set((Number(response[6])));
 			metrics.svms.set((Number(response[7])));
 			metrics.varms.set((Number(response[8])));
-			metrics.svMaxUpdateRate.set((Number(response[9])));
 		} else {
 			metrics.status.set((Number(1)));
 			metrics.cpu.set((Number(response[0])));
@@ -47,19 +45,14 @@ export default {
 		}
 	},
 	async requeseInfo(client, game) {
-		if (game === 'csgo') {
-			return null;
-		}
 		const maxUpdateRate = await utils.rconCommand(client, 'sv_maxupdaterate');
 		return {
 			sv_maxupdaterate: maxUpdateRate,
 		};
 	},
-	setInfoMetrics(response, game) {
-		if (game !== 'csgo') {
-			const maxUpdateRate = utils.parseCvar(response.sv_maxupdaterate);
-			metrics.svMaxUpdateRate.set((Number(maxUpdateRate.value)));
-		}
+	setInfoMetrics(response) {
+		const maxUpdateRate = utils.parseCvar(response.sv_maxupdaterate);
+		metrics.svMaxUpdateRate.set((Number(maxUpdateRate.value)));
 		return true;
 	},
 };
