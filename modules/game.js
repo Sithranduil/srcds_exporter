@@ -12,7 +12,11 @@ export default {
 		}
 		if (game === 'csgo') {
 			statusLine = stats.split(/\r?\n/);
+			statusLine.shift();
 			statusLine.pop();
+			statusLine = statusLine[0].split(/\s+/);
+			statusLine.shift();
+			return statusLine;
 		}
 		statusLine.shift();
 		statusLine = statusLine[0].split(/\s+/);
