@@ -31,20 +31,20 @@ export default {
 	},
 
 	async send(config, response, res) {
-		metamod.setMetrics(response.metamod);
-		sourcemod.setMetrics(response.sourcemod);
-		sourcepython.setMetrics(response.sourcepython);
-		game.setStatsMetrics(response.stats, config.game);
-		game.setInfoMetrics(response.info);
+		metamod.setMetrics(response ? response.metamod : null);
+		sourcemod.setMetrics(response ? response.sourcemod : null);
+		sourcepython.setMetrics(response ? response.sourcepython : null);
+		game.setStatsMetrics(response ? response.stats : null, config.game);
+		game.setInfoMetrics(response ? response.info : null);
 
 		registry.setDefaultLabels(
 			config.ip,
 			config.port,
 			config.game,
 			config.tags,
-			response.metamod,
-			response.sourcemod,
-			response.sourcepython,
+			response ? response.metamod : null,
+			response ? response.sourcemod : null,
+			response ? response.sourcepython : null,
 		);
 
 		registry.sendMetrics(config.game, res);

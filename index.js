@@ -46,22 +46,7 @@ app.get('/metrics', async (req, res) => {
 		} else {
 			console.error(e);
 		}
-		// status.set((Number(0)));
-		// cpu.set((Number(0)));
-		// netin.set((Number(0)));
-		// netout.set((Number(0)));
-		// uptime.set((Number(0)));
-		// maps.set((Number(0)));
-		// fps.set((Number(0)));
-		// players.set((Number(0)));
-		// svms.set((Number(0)));
-		// varms.set((Number(0)));
-		// svMaxUpdateRate.set((Number(0)));
-		// metamodEnabledGauge.set((Number(-1)));
-		// sourcemodEnabledGauge.set((Number(-1)));
-		// sourcepythonEnabledGauge.set((Number(-1)));
-		// prepareData(ip, port, game, tags);
-		// sendData(game, res);
+		await module.send(config, null, res, true);
 	}
 });
 

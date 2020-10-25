@@ -22,37 +22,54 @@ export default {
 		return statusLine;
 	},
 	setStatsMetrics(response, game) {
+		let status = 0;
+		let cpu = 0;
+		let netin = 0;
+		let netout = 0;
+		let uptime = 0;
+		let maps = 0;
+		let fps = 0;
+		let players = 0;
+		let svms = 0;
+		let varms = 0;
+		if (response) {
+			status = 1;
+			[cpu, netin, netout, uptime, maps, fps, players, svms, varms] = response;
+		}
 		if (game === 'csgo') {
-			metrics.status.set((Number(1)));
-			metrics.cpu.set((Number(response[0])));
-			metrics.netin.set((Number(response[1])));
-			metrics.netout.set((Number(response[2])));
-			metrics.uptime.set((Number(response[3])));
-			metrics.maps.set((Number(response[4])));
-			metrics.fps.set((Number(response[5])));
-			metrics.players.set((Number(response[6])));
-			metrics.svms.set((Number(response[7])));
-			metrics.varms.set((Number(response[8])));
+			metrics.status.set((Number(status)));
+			metrics.cpu.set((Number(cpu)));
+			metrics.netin.set((Number(netin)));
+			metrics.netout.set((Number(netout)));
+			metrics.uptime.set((Number(uptime)));
+			metrics.maps.set((Number(maps)));
+			metrics.fps.set((Number(fps)));
+			metrics.players.set((Number(players)));
+			metrics.svms.set((Number(svms)));
+			metrics.varms.set((Number(varms)));
 		} else {
-			metrics.status.set((Number(1)));
-			metrics.cpu.set((Number(response[0])));
-			metrics.netin.set((Number(response[1])));
-			metrics.netout.set((Number(response[2])));
-			metrics.uptime.set((Number(response[3])));
-			metrics.maps.set((Number(response[4])));
-			metrics.fps.set((Number(response[5])));
-			metrics.players.set((Number(response[6])));
+			metrics.status.set((Number(status)));
+			metrics.cpu.set((Number(cpu)));
+			metrics.netin.set((Number(netin)));
+			metrics.netout.set((Number(netout)));
+			metrics.uptime.set((Number(uptime)));
+			metrics.maps.set((Number(maps)));
+			metrics.fps.set((Number(fps)));
+			metrics.players.set((Number(players)));
 		}
 	},
-	async requeseInfo(client, game) {
+	async requeseInfo(client) {
 		const maxUpdateRate = await utils.rconCommand(client, 'sv_maxupdaterate');
 		return {
 			sv_maxupdaterate: maxUpdateRate,
 		};
 	},
 	setInfoMetrics(response) {
-		const maxUpdateRate = utils.parseCvar(response.sv_maxupdaterate);
-		metrics.svMaxUpdateRate.set((Number(maxUpdateRate.value)));
+		let maxUpdateRate = 0;
+		if (response) {
+			maxUpdateRate = utils.parseCvar(response.sv_maxupdaterate).value;
+		}
+		metrics.svMaxUpdateRate.set((Number(maxUpdateRate)));
 		return true;
 	},
 };
