@@ -4,9 +4,9 @@ Works (or should work) with the following servers :
 
 * Working :
     * CSGO
+    * CSS
     * GMod
 * Not working (I'm planning on adding them in the near future) :
-    * CSS
     * L4D2
     * TF2
     * HL2DM
@@ -23,7 +23,7 @@ You need to have NodeJS installed if you want to run the sources, NVM (Node Vers
 
 ### Method 2 : With docker
 
-`docker run -d -p <external port>:9591 --name srcds_exporter corentincl/srcds_exporter:latest`
+`docker run -d -p <external port>:9591 --name srcds_exporter sithranduil/srcds_exporter:latest`
 
 ## Configure Prometheus
 
@@ -31,31 +31,52 @@ Add the following configuration to Prometheus static configuration :
 
 ```
 - job_name: 'srcds'
+    scrape_interval: 5s
     static_configs:
-      - targets: ["<ip>:<port>:<rconpassword>:<game>"]
-
-
+      # Format :  ["<ip>:<port>:<rcon_password>:<game>:<use_metamod:use_sourcemod:use_sourcepython>"]
+      - targets: ["87.98.155.38:27016:password:cstrike:true:true:false"]
+        labels:
+          name: 'cstrike:only_de_dust2'
     relabel_configs:
+      # IP
       - source_labels: [__address__]
-        regex: "(.+):.+:.+:.+"
+        regex: ^(.+):\d+:\w+:\w+(:(\w+)){0,3}$
         replacement: "$1"
         target_label: __param_ip
+      # port
       - source_labels: [__address__]
-        regex: ".+:(.+):.+:.+"
+        regex: ^.+:(\d+):\w+:\w+(:(\w+)){0,3}$
         replacement: "$1"
         target_label: __param_port
+      # rconPassword
       - source_labels: [__address__]
-        regex: ".+:.+:(.+):.+"
+        regex: ^.+:\d+:(\w+):\w+(:(\w+)){0,3}$
         replacement: "$1"
-        target_label: __param_password
+        target_label: __param_rconPassword
+      # game
       - source_labels: [__address__]
-        regex: ".+:.+:.+:(.+)"
+        regex: ^.+:\d+:\w+:(\w+)(:(\w+)){0,3}$
         replacement: "$1"
         target_label: __param_game
-      - source_labels: [__param_target]
+      # metamod
+      - source_labels: [__address__]
+        regex: ^.+:\d+:\w+:\w+:(\w+).*$
+        replacement: "$1"
+        target_label: __param_metamod
+      # sourcemod
+      - source_labels: [__address__]
+        regex: ^.+:\d+:\w+:\w+:(\w+):(\w+).*$
+        replacement: "$2"
+        target_label: __param_sourcemod
+      # sourcepython
+      - source_labels: [__address__]
+        regex: ^.+:\d+:\w+:\w+:(\w+):(\w+):(\w+).*$
+        replacement: "$3"
+        target_label: __param_sourcepython
+      - source_labels: [__address__]
         target_label: instance
       - target_label: __address__
-        replacement: <IP>:<port> # Real exporter's IP:Port
+        replacement: srcds-exporter:9591 # Real exporter's IP:Port
 ```
 
 Values for `game` field :
@@ -64,27 +85,18 @@ Values for `game` field :
 |:----------:|:-------------:|
 | CS:GO |  csgo |
 | Garry's Mod |    gmod   |
+| Counter Strike Source | cstrike |
 
 ## How to access
 
 If you want to see what the exporter returns, you can access :
  
- `http://<ip>:9591/metrics?ip=<srcds ip>&port=<srcds port>&password=<rcon password>&game=<game>`
+ `http://<ip>:9591/metrics?ip=<srcds ip>&port=<srcds port>&password=<rcon password>&game=<game>&metamod=<metamod>&sourcepython=<sourcepython>&sourcemod=<sourcemod>`
  
 ## Grafana dashboard
 
 Is there a Grafana dashboard available ? Of course!
 
-**CSGO** : https://grafana.com/grafana/dashboards/11333
+**CSGO/CSS** : https://grafana.com/grafana/dashboards/13312
 
 **GMod** : Coming
-
-
-### Support
-
-If you encounter any issue, feel free to open an issue.
-If you want to contact me :
-
-* Twitter : [@Unyxos](https://twitter.com/Unyxos)
-* Discord : Unyxos#1337
-* Email : [me@corentincloss.fr](mailto://me@corentincloss.fr)
