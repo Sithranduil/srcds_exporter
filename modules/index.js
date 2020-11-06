@@ -12,6 +12,7 @@ export default {
 
 		const infoResponse = await game.requeseInfo(client, config.game);
 		const statsResponse = await game.requestStats(client, config.game);
+		const statusResponse = await game.requestStatus(client, config.game);
 		if (config.metamod) {
 			metamodResponse = await metamod.request(client);
 		}
@@ -24,6 +25,7 @@ export default {
 		return {
 			info: infoResponse,
 			stats: statsResponse,
+			status: statusResponse,
 			metamod: metamodResponse,
 			sourcemod: sourcemodResponse,
 			sourcepython: sourcepythonResponse,
@@ -36,6 +38,7 @@ export default {
 		sourcepython.setMetrics(response ? response.sourcepython : null);
 		game.setStatsMetrics(response ? response.stats : null, config.game);
 		game.setInfoMetrics(response ? response.info : null);
+		game.setStatusMetrics(response ? response.status : null);
 
 		registry.setDefaultLabels(
 			config.ip,
