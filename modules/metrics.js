@@ -11,6 +11,8 @@ export default {
 	maps: new Gauge({ name: 'srcds_maps', help: "The number of maps played on that server since it's start", registers: registry.allGameMetrics }),
 	fps: new Gauge({ name: 'srcds_fps', help: "The server's tick (10 fps on idle, 64 fps for 64 ticks server, 128 fps for 128 ticks..)", registers: registry.allGameMetrics }),
 	players: new Gauge({ name: 'srcds_players', help: 'The number of real players actually connected on the server', registers: registry.allGameMetrics }),
+	bots: new Gauge({ name: 'srcds_bots', help: 'The number of bots actually connected on the server', registers: registry.allGameMetrics }),
+	maxPlayers: new Gauge({ name: 'srcds_max_players', help: 'The number of real players actually connected on the server', registers: registry.allGameMetrics }),
 	svMaxUpdateRate: new Gauge({ name: 'srcds_sv_max_update_rate', help: 'The time in MS per tick', registers: registry.allGameMetrics }),
 	// Metamod metrics
 	metamodEnabled: new Gauge({ name: 'srcds_metamod_enabled', help: 'Is metamod enabled', registers: registry.allGameMetrics }),
