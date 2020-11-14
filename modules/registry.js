@@ -19,18 +19,21 @@ export default {
 	setDefaultLabels(ip, port, game, tags, metamodResponse, sourcemodResponse, sourcepythonResponse) {
 		const defaultLabels = { server: `${ip}:${port}`, game, tags };
 		if (metamodResponse && utils.isValidResponse(metamodResponse)) {
-			const line = utils.getLine(metamodResponse);
-			const version = line.replace('Metamod:Source version ', '');
+			let line = utils.getLine(metamodResponse);
+			if (line === ' Metamod:Source Version Information') {
+				line = utils.getLine(metamodResponse, 2);
+			}
+			const version = line.replace('Metamod:Source version ', '').trim();
 			defaultLabels.metamod = version;
 		}
 		if (sourcemodResponse && utils.isValidResponse(sourcemodResponse)) {
 			const line = utils.getLine(sourcemodResponse, 2);
-			const version = line.replace('    SourceMod Version: ', '');
+			const version = line.replace('    SourceMod Version: ', '').trim();
 			defaultLabels.sourcemod = version;
 		}
 		if (sourcepythonResponse && utils.isValidResponse(sourcepythonResponse)) {
 			const line = utils.getLine(sourcepythonResponse, 8);
-			const version = line.replace('SP version    : ', '');
+			const version = line.replace('SP version    : ', '').trim();
 			defaultLabels.sourcepython = version;
 		}
 		if (game === 'csgo') {
