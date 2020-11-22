@@ -20,6 +20,8 @@ export default {
 	sourcemodEnabled: new Gauge({ name: 'srcds_sourcemod_enabled', help: 'Is sourcemod enabled', registers: registry.allGameMetrics }),
 	// SourcePython metrics
 	sourcepythonEnabled: new Gauge({ name: 'srcds_sourcepython_enabled', help: 'Is sourcepython enabled', registers: registry.allGameMetrics }),
+	// gametracker metrics
+	gametrackerRank: new Gauge({ name: 'srcds_gametracker_rank', help: 'The rank from gametracker', registers: registry.allGameMetrics }),
 
 	// CSGO metrics
 	svms: new Gauge({ name: 'srcds_svms', help: 'ms per sim frame', registers: [registry.csgoRegistry] }),

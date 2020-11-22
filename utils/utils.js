@@ -1,4 +1,6 @@
 import { TimeoutError } from 'working-rcon';
+import got from 'got';
+import jsdom from 'jsdom';
 
 export default {
 	parseCvar(value) {
@@ -14,6 +16,10 @@ export default {
 	getLine(value, line = 1) {
 		return value.split('\n', line)[line - 1];
 	},
+	searchLine(value, stringToSearch) {
+		const lines = value.split('\n');
+		return lines.filter((line) => line.includes(stringToSearch));
+	},
 	async rconCommand(client, command) {
 		try {
 			return client.command(command);
@@ -28,5 +34,9 @@ export default {
 	},
 	isValidResponse(response) {
 		return !response.includes('Unknown');
+	},
+	async requestGameTracker(ip, port) {
+		const response = await got(`https://www.gametracker.com/server_info/${ip}:${port}`);
+		return new jsdom.JSDOM(response.body);
 	},
 };
