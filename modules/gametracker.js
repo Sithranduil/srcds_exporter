@@ -14,7 +14,7 @@ export default {
 		};
 	},
 	setMetrics(response) {
-		const rank = response.rank || 0;
+		const rank = response ? response.rank : 0;
 		metrics.gametrackerRank.set((Number(rank)));
 	},
 };

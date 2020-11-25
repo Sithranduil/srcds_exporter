@@ -4,6 +4,31 @@ import sourcepython from './sourcepython.js';
 import registry from './registry.js';
 import game from './game.js';
 import gametracker from './gametracker.js';
+import conf from '../config.js';
+
+const gameTrackerResponse = [];
+
+function requestGameTrackerSchedule() {
+	setTimeout(() => {
+		conf.servers.forEach((server) => {
+			requestGameTracker(server.ip, server.port);
+		});
+		requestGameTrackerSchedule();
+	}, conf.gametrackerShedule * 1000);
+}
+
+async function requestGameTracker(ip, port) {
+	try {
+		gameTrackerResponse[`${ip}:${port}`] = await gametracker.request(ip, port);
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+requestGameTrackerSchedule();
+conf.servers.forEach((server) => {
+	requestGameTracker(server.ip, server.port);
+});
 
 export default {
 	async request(config, client) {
@@ -14,7 +39,6 @@ export default {
 		const infoResponse = await game.requeseInfo(client, config.game);
 		const statsResponse = await game.requestStats(client, config.game);
 		const statusResponse = await game.requestStatus(client, config.game);
-		const gameTrackerResponse = await gametracker.request(config.ip, config.port);
 		if (config.metamod) {
 			metamodResponse = await metamod.request(client);
 		}
@@ -31,7 +55,7 @@ export default {
 			metamod: metamodResponse,
 			sourcemod: sourcemodResponse,
 			sourcepython: sourcepythonResponse,
-			gametracker: gameTrackerResponse,
+			gametracker: gameTrackerResponse[`${config.ip}:${config.port}`],
 		};
 	},
 
