@@ -101,7 +101,7 @@ export default {
 	},
 	setInfoMetrics(response) {
 		let maxUpdateRate = 0;
-		if (response) {
+		if (response && response.sv_maxupdaterate) {
 			maxUpdateRate = utils.parseCvar(response.sv_maxupdaterate).value;
 		}
 		metrics.svMaxUpdateRate.set((Number(maxUpdateRate)));
