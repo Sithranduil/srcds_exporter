@@ -23,6 +23,9 @@ export default {
 			}
 			res = statusLine[0].split(/players : (\d+) humans, (\d+) bots \((\d+)\/0 max\)/);
 		} else {
+			if (statusLine[0].search('sourcetv') !== -1) {
+				statusLine.shift();
+			}
 			res = statusLine[0].split(/players : (\d+) humans, (\d+) bots \((\d+) max\)/);
 		}
 		res.pop();
