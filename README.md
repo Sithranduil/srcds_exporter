@@ -1,15 +1,8 @@
 # SRCDS Prometheus exporter
 
 Works (or should work) with the following servers :
-
-* Working :
-    * CSGO
-    * CSS
-    * GMod
-* Not working (I'm planning on adding them in the near future) :
-    * L4D2
-    * TF2
-    * HL2DM
+* CSGO
+* CSS
 
 ## How to install
 
@@ -24,6 +17,11 @@ You need to have NodeJS installed if you want to run the sources, NVM (Node Vers
 ### Method 2 : With docker
 
 `docker run -d -p <external port>:9591 --name srcds_exporter sithranduil/srcds_exporter:latest`
+
+## Configure srcds_exporter
+
+You need to create your own configuration to allow the exporter to request gametracker, then mount it into the docker container.
+You can find example file here : https://github.com/Sithranduil/srcds_exporter/blob/master/config.js
 
 ## Configure Prometheus
 
@@ -84,7 +82,6 @@ Values for `game` field :
 | Game   |      Value      |
 |:----------:|:-------------:|
 | CS:GO |  csgo |
-| Garry's Mod |    gmod   |
 | Counter Strike Source | cstrike |
 
 ## How to access
@@ -98,5 +95,3 @@ If you want to see what the exporter returns, you can access :
 Is there a Grafana dashboard available ? Of course!
 
 **CSGO/CSS** : https://grafana.com/grafana/dashboards/13312
-
-**GMod** : Coming
